@@ -52,8 +52,8 @@ class AuctionBidDocumentResource(APIResource):
             self.request.errors.status = 403
             return
         auction = self.request.validated['auction']
-        if self.request.validated['auction_status'] == 'active.tendering' and (auction.tenderPeriod.startDate and get_now() < auction.tenderPeriod.startDate or get_now() > auction.tenderPeriod.endDate):
-            self.request.errors.add('body', 'data', 'Document can be added only during the tendering period: from ({}) to ({}).'.format(auction.auctionPeriod.startDate and auction.auctionPeriod.startDate.isoformat(), auction.auctionPeriod.endDate.isoformat()))
+        if self.request.validated['auction_status'] == 'active.tendering' and not (auction.tenderPeriod.startDate < get_now() < auction.tenderPeriod.endDate):
+            self.request.errors.add('body', 'data', 'Document can be added only during the tendering period: from ({}) to ({}).'.format(auction.tenderPeriod.startDate.isoformat(), auction.tenderPeriod.endDate.isoformat()))
             self.request.errors.status = 403
             return
         if self.request.validated['auction_status'] == 'active.qualification' and not [i for i in self.request.validated['auction'].awards if i.status == 'pending' and i.bid_id == self.request.validated['bid_id']]:
@@ -98,8 +98,8 @@ class AuctionBidDocumentResource(APIResource):
             self.request.errors.status = 403
             return
         auction = self.request.validated['auction']
-        if self.request.validated['auction_status'] == 'active.tendering' and (auction.tenderPeriod.startDate and get_now() < auction.tenderPeriod.startDate or get_now() > auction.tenderPeriod.endDate):
-            self.request.errors.add('body', 'data', 'Document can be updated only during the tendering period: from ({}) to ({}).'.format(auction.auctionPeriod.startDate and auction.auctionPeriod.startDate.isoformat(), auction.auctionPeriod.endDate.isoformat()))
+        if self.request.validated['auction_status'] == 'active.tendering' and not (auction.tenderPeriod.startDate < get_now() < auction.tenderPeriod.endDate):
+            self.request.errors.add('body', 'data', 'Document can be updated only during the tendering period: from ({}) to ({}).'.format(auction.tenderPeriod.startDate.isoformat(), auction.tenderPeriod.endDate.isoformat()))
             self.request.errors.status = 403
             return
         if self.request.validated['auction_status'] == 'active.qualification' and not [i for i in self.request.validated['auction'].awards if i.status == 'pending' and i.bid_id == self.request.validated['bid_id']]:
@@ -123,8 +123,8 @@ class AuctionBidDocumentResource(APIResource):
             self.request.errors.status = 403
             return
         auction = self.request.validated['auction']
-        if self.request.validated['auction_status'] == 'active.tendering' and (auction.tenderPeriod.startDate and get_now() < auction.tenderPeriod.startDate or get_now() > auction.tenderPeriod.endDate):
-            self.request.errors.add('body', 'data', 'Document can be updated only during the tendering period: from ({}) to ({}).'.format(auction.auctionPeriod.startDate and auction.auctionPeriod.startDate.isoformat(), auction.auctionPeriod.endDate.isoformat()))
+        if self.request.validated['auction_status'] == 'active.tendering' and not (auction.tenderPeriod.startDate < get_now() < auction.tenderPeriod.endDate):
+            self.request.errors.add('body', 'data', 'Document can be updated only during the tendering period: from ({}) to ({}).'.format(auction.tenderPeriod.startDate.isoformat(), auction.tenderPeriod.endDate.isoformat()))
             self.request.errors.status = 403
             return
         if self.request.validated['auction_status'] == 'active.qualification' and not [i for i in self.request.validated['auction'].awards if i.status == 'pending' and i.bid_id == self.request.validated['bid_id']]:
