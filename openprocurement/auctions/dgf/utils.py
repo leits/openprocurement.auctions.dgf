@@ -9,7 +9,7 @@ from openprocurement.api.utils import (
 )
 from openprocurement.auctions.core.utils import (
     cleanup_bids_for_cancelled_lots, check_complaint_status,
-    check_auction_status, remove_draft_bids,
+    remove_draft_bids,
 )
 from openprocurement.auctions.dgf.models import VERIFY_AUCTION_PROTOCOL_TIME, AWARD_PAYMENT_TIME
 PKG = get_distribution(__package__)
