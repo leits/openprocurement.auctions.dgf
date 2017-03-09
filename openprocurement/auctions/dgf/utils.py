@@ -147,12 +147,11 @@ def check_award_status(request, award, now):
         switch_to_next_award(request)
 
 
-def invalidate_bids_under_threshold(request):
-    auction = request.validated['auction']
-    value_threshold = auction.value.amount + auction.minimalStep.amount
-    for bid in auction.bids:
-        if bid.value.amount < value_threshold:
-            bid.status = 'invalid'
+def invalidate_bids_under_threshold(auction):
+    value_threshold = auction['value']['amount'] + auction['minimalStep']['amount']
+    for bid in auction['bids']:
+        if bid['value']['amount'] < value_threshold:
+            bid['status'] = 'invalid'
 
 
 def create_awards(request):
